@@ -2,7 +2,7 @@
 
 # region : set variables
 
-TEMPLATE_VMID=900
+TEMPLATE_VMID=9000
 CLOUDINIT_IMAGE_TARGET_VOLUME=local-lvm
 TEMPLATE_BOOT_IMAGE_TARGET_VOLUME=local-lvm
 BOOT_IMAGE_TARGET_VOLUME=local-lvm
@@ -18,9 +18,9 @@ VM_LIST=(
     # vmsrvip:    VMのService Segment側NICに割り振る固定IP
     # ---
     #vmid #vmname #cpu #mem  #vmsrvip    
-    "1121 k8s-cp1 2    4096  192.168.1.121"
-    "1122 k8s-wk1 4    8192  192.168.1.122"
-    "1123 k8s-wk2 4    8192  192.168.1.123"
+    "1111 k8s-cp1 2    4096  192.168.1.111"
+    "1112 k8s-wk1 4    8192  192.168.1.112"
+    "1113 k8s-wk2 4    8192  192.168.1.113"
 )
 
 # endregion
@@ -33,7 +33,7 @@ VM_LIST=(
 # vmbr0=Service Network Segment (192.168.1.0/24)
 qm create $TEMPLATE_VMID --bios seabios --cpu x86-64-v2-AES --cores 2 --memory 4096 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-single --ostype l26 --name k8s-template
 
-# import the downloaded disk to $TEMPLATE_BOOT_IMAGE_TARGET_VOLUME storage
+# set scsi0 disk from downloaded disk
 qm set $TEMPLATE_VMID --scsi0 local-lvm:0,import-from=${VM_DISK_IMAGE},format=qcow2,cache=writeback,discard=on
 
 # add Cloud-Init CD-ROM drive
@@ -41,9 +41,6 @@ qm set $TEMPLATE_VMID --ide0 $CLOUDINIT_IMAGE_TARGET_VOLUME:cloudinit
 
 # set the bootdisk parameter to scsi0
 qm set $TEMPLATE_VMID --boot c --bootdisk scsi0
-
-# set serial console
-#qm set $TEMPLATE_VMID --serial0 socket --vga serial0
 
 # migrate to template
 qm template $TEMPLATE_VMID
@@ -78,15 +75,19 @@ do
 			timezone: Asia/Tokyo
 			# USER
 			users:
-			- default
-			- name: red
-			  lock_passwd: false
-			  # mkpasswd --method=SHA-512 --rounds=4096
-			  passwd: \$6\$rounds=4096\$2dcpst67UO5pMw7H\$OlPx45objlhjmlFx7dj0/BA/Bv/JVI/z6xNNjRr/7wwqAEgi8XjROA8f/WCoiPnaTSz.P6OMKtLNyq4jTrHnq0
-			  shell: /bin/bash
-			  sudo: ALL=(ALL) NOPASSWD:ALL
-			  uid: 1000
-			expire: False
+			  - default
+			  - name: red
+			    lock_passwd: false
+			    # mkpasswd --method=SHA-512 --rounds=4096
+			    passwd: \$6\$rounds=4096\$2dcpst67UO5pMw7H\$OlPx45objlhjmlFx7dj0/BA/Bv/JVI/z6xNNjRr/7wwqAEgi8XjROA8f/WCoiPnaTSz.P6OMKtLNyq4jTrHnq0
+			    sudo: ALL=(ALL) NOPASSWD:ALL
+			    uid: 1000
+			disable_root: false
+			ssh_pwauth:   true
+			chpasswd:
+			  expire: false
+			  users:
+			  - {name: root, password: \$6\$rounds=4096\$Q8.soBzTd197aiV1\$kLND.9Ncudev2N01P89KT63kwxa3Ba4dPPsO4iRTdxu8a9.SNrKxvzEj1cvvz7DdtY3JyOUxHym8KEECarXq1.}
 			package_upgrade: true
 			runcmd:
 			  # set ssh_authorized_keys

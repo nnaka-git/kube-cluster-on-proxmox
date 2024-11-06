@@ -1,7 +1,7 @@
-qm stop 1121
-qm stop 1122
-qm stop 1123
-qm destroy 1121
-qm destroy 1122
-qm destroy 1123
-qm destroy 900
+qm stop 1111
+qm stop 1112
+qm stop 1113
+qm destroy 1111
+qm destroy 1112
+qm destroy 1113
+qm destroy 9000
