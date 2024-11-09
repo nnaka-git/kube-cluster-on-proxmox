@@ -2,8 +2,8 @@
 # cloudinitの実行ログチェック(トラブルシュート用)
 # だいたいのスクリプトは k8s-cp1で動いてます
 ## check cloud-init 
-sudo cloud-init query userdata
-sudo cloud-init schema --system --annotate
+ssh k8s-cp1 "sudo cloud-init query userdata"
+ssh k8s-cp1 "sudo cloud-init schema --system --annotate"
 
 ## check /var/log/cloud-init-output.log
 ssh k8s-cp1 "sudo cat /var/log/cloud-init-output.log"
