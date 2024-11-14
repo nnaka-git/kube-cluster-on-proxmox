@@ -9,7 +9,7 @@ BOOT_IMAGE_TARGET_VOLUME=local-lvm
 SNIPPET_TARGET_VOLUME=local
 SNIPPET_TARGET_PATH=/var/lib/vz/snippets
 VM_DISK_IMAGE=/var/lib/vz/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2
-hREPOSITORY_RAW_SOURCE_URL=https://github.com/nnaka-git/kube-cluster-on-proxmox/blob/main/scripts/bootstrap.sh
+REPOSITORY_RAW_SOURCE_URL=https://raw.githubusercontent.com/nnaka-git
 VM_LIST=(
     # ---
     # vmid:       proxmox上でVMを識別するID
@@ -90,11 +90,10 @@ do
 			  users:
 			  - {name: root, password: \$6\$rounds=4096\$Q8.soBzTd197aiV1\$kLND.9Ncudev2N01P89KT63kwxa3Ba4dPPsO4iRTdxu8a9.SNrKxvzEj1cvvz7DdtY3JyOUxHym8KEECarXq1.}
 			package_upgrade: true
-			# # for Kubernetes
-			# packages:
-			#   - iproute-tc
-			#   - python3
-			#   - python3-pip
+			# for LANG=ja_JP.UTF-8
+			packages:
+			  - glibc-locale-source
+			  - glibc-langpack-ja
 			runcmd:
 			  # disable SELinux
 			  - setenforce 0
@@ -104,7 +103,7 @@ do
 			  - su - red -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
 			  - su - red -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
 			  - su - red -c "chmod 600 ~/.ssh/authorized_keys"
-			  - su - red -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/scripts/k8s-bootstrap.sh | bash"
+			  - su - red -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/kube-cluster-on-proxmox/main/scripts/bootstrap.sh | bash"
 			# REBOOT
 			power_state:
 			  mode: reboot
