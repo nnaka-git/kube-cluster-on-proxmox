@@ -19,8 +19,8 @@ VM_LIST=(
     # ---
     #vmid #vmname #cpu #mem  #vmsrvip    
     "1111 kube-cp1 2    4096  192.168.1.111"
-    "1112 kube-wk1 4    8192  192.168.1.112"
-    "1113 kube-wk2 4    8192  192.168.1.113"
+#    "1112 kube-wk1 4    8192  192.168.1.112"
+#    "1113 kube-wk2 4    8192  192.168.1.113"
 )
 
 # endregion
@@ -89,6 +89,11 @@ do
 			  users:
 			  - {name: root, password: \$6\$rounds=4096\$Q8.soBzTd197aiV1\$kLND.9Ncudev2N01P89KT63kwxa3Ba4dPPsO4iRTdxu8a9.SNrKxvzEj1cvvz7DdtY3JyOUxHym8KEECarXq1.}
 			package_upgrade: true
+			# # for Kubernetes
+			# packages:
+			#   - iproute-tc
+			#   - python3
+			#   - python3-pip
 			runcmd:
 			  # disable SELinux
 			  - setenforce 0
