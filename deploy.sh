@@ -9,6 +9,7 @@ BOOT_IMAGE_TARGET_VOLUME=local-lvm
 SNIPPET_TARGET_VOLUME=local
 SNIPPET_TARGET_PATH=/var/lib/vz/snippets
 VM_DISK_IMAGE=/var/lib/vz/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2
+hREPOSITORY_RAW_SOURCE_URL=https://github.com/nnaka-git/kube-cluster-on-proxmox/blob/main/scripts/bootstrap.sh
 VM_LIST=(
     # ---
     # vmid:       proxmox上でVMを識別するID
