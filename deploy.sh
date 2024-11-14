@@ -104,6 +104,7 @@ do
 			  - su - red -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
 			  - su - red -c "chmod 600 ~/.ssh/authorized_keys"
 			  - su - red -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/kube-cluster-on-proxmox/main/scripts/bootstrap.sh | bash"
+			  - su - red -c "sudo localedef -f UTF-8 -i ja_JP ja_JP"
 			# REBOOT
 			power_state:
 			  mode: reboot
