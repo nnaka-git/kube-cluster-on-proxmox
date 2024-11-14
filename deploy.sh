@@ -103,6 +103,7 @@ do
 			  - su - red -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
 			  - su - red -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
 			  - su - red -c "chmod 600 ~/.ssh/authorized_keys"
+			  - su - red -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/scripts/k8s-bootstrap.sh | bash"
 			# REBOOT
 			power_state:
 			  mode: reboot
