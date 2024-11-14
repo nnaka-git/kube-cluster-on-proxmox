@@ -1,6 +1,6 @@
 #!/bin/bash
 # Install Ansible
-sudo dnf install -y ansible glibc-langpack-ja
+sudo dnf install -y ansible-core
 # Clone your Ansible repository
 # git clone https://github.com/yourusername/ansible-config.git /etc/ansible
 # Run your initial Ansible playbook
