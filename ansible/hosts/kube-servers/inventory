@@ -1,14 +1,14 @@
 [kube-servers]
-kube-cp1 ansible_host=192.168.1.121
-kube-wk1 ansible_host=192.168.1.122
-kube-wk2 ansible_host=192.168.1.123
+kube-cp1 ansible_host=192.168.1.111
+kube-wk1 ansible_host=192.168.1.112
+kube-wk2 ansible_host=192.168.1.113
 
 [kube-cp]
-kube-cp1 ansible_host=192.168.1.121
+kube-cp1 ansible_host=192.168.1.111
 
 [kube-wk]
-kube-wk1 ansible_host=192.168.1.122
-kube-wk2 ansible_host=192.168.1.123
+kube-wk1 ansible_host=192.168.1.112
+kube-wk2 ansible_host=192.168.1.113
 
 [kube-servers-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
