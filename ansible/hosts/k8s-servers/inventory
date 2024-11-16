@@ -1,41 +1,41 @@
-[k8s-servers]
-k8s-cp1 ansible_host=192.168.1.121
-k8s-wk1 ansible_host=192.168.1.122
-k8s-wk2 ansible_host=192.168.1.123
+[kube-servers]
+kube-cp1 ansible_host=192.168.1.121
+kube-wk1 ansible_host=192.168.1.122
+kube-wk2 ansible_host=192.168.1.123
 
-[k8s-servers:vars]
+[kube-servers:vars]
 ansible_ssh_pass=zaq12wsx
 
 
-[k8s-servers-with-ssh:children]
-k8s-servers
+[kube-servers-with-ssh:children]
+kube-servers
 
-[k8s-servers-with-ssh:vars]
+[kube-servers-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
 
 
-[k8s-servers-cp-with-ssh]
-k8s-cp1 ansible_host=192.168.1.121
+[kube-servers-cp-with-ssh]
+kube-cp1 ansible_host=192.168.1.121
 
-[k8s-servers-cp-with-ssh:vars]
+[kube-servers-cp-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
 
 
-[k8s-servers-cp-leader-with-ssh]
-k8s-cp1 ansible_host=192.168.1.121
+[kube-servers-cp-leader-with-ssh]
+kube-cp1 ansible_host=192.168.1.121
 
-[k8s-servers-cp-leader-with-ssh:vars]
+[kube-servers-cp-leader-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
 
-[k8s-servers-cp-follower-with-ssh:vars]
+[kube-servers-cp-follower-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
 
 
-[k8s-servers-wk-with-ssh]
-k8s-wk-1 ansible_host=192.168.1.122
-k8s-wk-2 ansible_host=192.168.1.123
+[kube-servers-wk-with-ssh]
+kube-wk-1 ansible_host=192.168.1.122
+kube-wk-2 ansible_host=192.168.1.123
 
-[k8s-servers-wk-with-ssh:vars]
+[kube-servers-wk-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
 
 
