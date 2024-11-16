@@ -9,4 +9,4 @@ export ANSIBLE_CONFIG="$HOME"/kube-cluster-on-proxmox/ansible/ansible.cfg
 ansible-galaxy collection install community.crypto
 ansible-galaxy role install -r "$HOME"/kube-cluster-on-proxmox/ansible/roles/requirements.yaml
 ansible-galaxy collection install -r "$HOME"/kube-cluster-on-proxmox/ansible/roles/requirements.yaml
-# ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/clusterwide.yaml
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/clusterwide.yaml

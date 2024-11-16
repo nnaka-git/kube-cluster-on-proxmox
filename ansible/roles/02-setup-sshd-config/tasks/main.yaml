@@ -1,4 +1,5 @@
 - name: Copy file
+  become: yes
   ansible.builtin.copy:
     src: /root/.ssh/id_ed25519.pub
     dest: /home/cloudinit/.ssh/id_ed25519.pub
@@ -17,8 +18,8 @@
     line: "{{item.key}} {{item.value}}"
     state: present
   loop:
-    - { key: "PermitRootLogin", value: "no" }
-    - { key: "PasswordAuthentication", value: "no" } 
+    - { key: "PermitRootLogin", value: "yes" }
+    - { key: "PasswordAuthentication", value: "yes" } 
  
 - name: restart sshd
   become: yes
