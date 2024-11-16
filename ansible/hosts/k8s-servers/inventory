@@ -3,41 +3,15 @@ kube-cp1 ansible_host=192.168.1.121
 kube-wk1 ansible_host=192.168.1.122
 kube-wk2 ansible_host=192.168.1.123
 
-[kube-servers:vars]
-ansible_ssh_pass=zaq12wsx
+[kube-cp]
+kube-cp1 ansible_host=192.168.1.121
 
-
-[kube-servers-with-ssh:children]
-kube-servers
+[kube-wk]
+kube-wk1 ansible_host=192.168.1.122
+kube-wk2 ansible_host=192.168.1.123
 
 [kube-servers-with-ssh:vars]
 ansible_ssh_private_key_file=/root/.ssh/id_ed25519
-
-
-[kube-servers-cp-with-ssh]
-kube-cp1 ansible_host=192.168.1.121
-
-[kube-servers-cp-with-ssh:vars]
-ansible_ssh_private_key_file=/root/.ssh/id_ed25519
-
-
-[kube-servers-cp-leader-with-ssh]
-kube-cp1 ansible_host=192.168.1.121
-
-[kube-servers-cp-leader-with-ssh:vars]
-ansible_ssh_private_key_file=/root/.ssh/id_ed25519
-
-[kube-servers-cp-follower-with-ssh:vars]
-ansible_ssh_private_key_file=/root/.ssh/id_ed25519
-
-
-[kube-servers-wk-with-ssh]
-kube-wk-1 ansible_host=192.168.1.122
-kube-wk-2 ansible_host=192.168.1.123
-
-[kube-servers-wk-with-ssh:vars]
-ansible_ssh_private_key_file=/root/.ssh/id_ed25519
-
 
 [all:vars]
 ansible_python_interpreter=/usr/bin/python3
