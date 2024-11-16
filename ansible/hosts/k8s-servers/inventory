@@ -1,0 +1,45 @@
+[k8s-servers]
+k8s-cp1 ansible_host=192.168.1.121
+k8s-wk1 ansible_host=192.168.1.122
+k8s-wk2 ansible_host=192.168.1.123
+
+[k8s-servers:vars]
+ansible_ssh_pass=zaq12wsx
+
+
+[k8s-servers-with-ssh:children]
+k8s-servers
+
+[k8s-servers-with-ssh:vars]
+ansible_ssh_private_key_file=/root/.ssh/id_ed25519
+
+
+[k8s-servers-cp-with-ssh]
+k8s-cp1 ansible_host=192.168.1.121
+
+[k8s-servers-cp-with-ssh:vars]
+ansible_ssh_private_key_file=/root/.ssh/id_ed25519
+
+
+[k8s-servers-cp-leader-with-ssh]
+k8s-cp1 ansible_host=192.168.1.121
+
+[k8s-servers-cp-leader-with-ssh:vars]
+ansible_ssh_private_key_file=/root/.ssh/id_ed25519
+
+[k8s-servers-cp-follower-with-ssh:vars]
+ansible_ssh_private_key_file=/root/.ssh/id_ed25519
+
+
+[k8s-servers-wk-with-ssh]
+k8s-wk-1 ansible_host=192.168.1.122
+k8s-wk-2 ansible_host=192.168.1.123
+
+[k8s-servers-wk-with-ssh:vars]
+ansible_ssh_private_key_file=/root/.ssh/id_ed25519
+
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_port=22
+ansible_user=cloudinit
