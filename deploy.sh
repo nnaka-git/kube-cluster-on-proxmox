@@ -77,7 +77,7 @@ do
 			# USER
 			users:
 			  - default
-			  - name: red
+			  - name: cloudinit
 			    lock_passwd: false
 			    # mkpasswd --method=SHA-512 --rounds=4096
 			    passwd: \$6\$rounds=4096\$2dcpst67UO5pMw7H\$OlPx45objlhjmlFx7dj0/BA/Bv/JVI/z6xNNjRr/7wwqAEgi8XjROA8f/WCoiPnaTSz.P6OMKtLNyq4jTrHnq0
@@ -100,11 +100,11 @@ do
 			  - sed -i -e 's/^\SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 			  - systemctl restart rsyslog
 			  # set ssh_authorized_keys
-			  - su - red -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
-			  - su - red -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
-			  - su - red -c "chmod 600 ~/.ssh/authorized_keys"
-			  - su - red -c "curl -sS ${REPOSITORY_RAW_SOURCE_URL}/kube-cluster-on-proxmox/refs/heads/main/scripts/bootstrap.sh | bash"
-			  - su - red -c "sudo localedef -f UTF-8 -i ja_JP ja_JP"
+			  - su - cloudinit -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
+			  - su - cloudinit -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
+			  - su - cloudinit -c "chmod 600 ~/.ssh/authorized_keys"
+			  - su - cloudinit -c "curl -sS ${REPOSITORY_RAW_SOURCE_URL}/kube-cluster-on-proxmox/refs/heads/main/scripts/bootstrap.sh | bash"
+			  - su - cloudinit -c "sudo localedef -f UTF-8 -i ja_JP ja_JP"
 			# REBOOT
 			power_state:
 			  mode: reboot
