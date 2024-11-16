@@ -10,7 +10,6 @@ SNIPPET_TARGET_VOLUME=local
 SNIPPET_TARGET_PATH=/var/lib/vz/snippets
 VM_DISK_IMAGE=/var/lib/vz/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2
 REPOSITORY_RAW_SOURCE_URL=https://raw.githubusercontent.com/nnaka-git
-GITHUB_TOKEN=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
 VM_LIST=(
     # ---
     # vmid:       proxmox上でVMを識別するID
@@ -104,7 +103,7 @@ do
 			  - su - red -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
 			  - su - red -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
 			  - su - red -c "chmod 600 ~/.ssh/authorized_keys"
-			  - su - red -c "curl -H \"Authorization: token ${GITHUB_TOKEN}\" ${REPOSITORY_RAW_SOURCE_URL}/kube-cluster-on-proxmox/refs/heads/main/scripts/bootstrap.sh | bash"
+			  - su - red -c "curl -sS ${REPOSITORY_RAW_SOURCE_URL}/kube-cluster-on-proxmox/refs/heads/main/scripts/bootstrap.sh | bash"
 			  - su - red -c "sudo localedef -f UTF-8 -i ja_JP ja_JP"
 			# REBOOT
 			power_state:

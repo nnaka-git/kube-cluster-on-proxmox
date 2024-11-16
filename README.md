@@ -164,19 +164,3 @@ kubectl describe pods/kube-flannel-ds-g2dls -n kube-flannel
 kubeadm join 192.168.1.111:6443 --token 7vly8b.5eud346tlqadwv4v \
         --discovery-token-ca-cert-hash sha256:eab62cea2e0c837f2d62687f97d3688e03bd0cc26738e1260eaa30be6763e0eb
 -- ワーカーでこれで参加させる ----------------------------------
-
-
-
-github アクセストークン（classic）
-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
-
--- これでプライベートリポジトリからでも取得できた
-curl -H "Authorization: token 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" \
-    -H "Accept: application/vnd.github.v3.raw" \
-    https://raw.githubusercontent.com/nnaka-git/kube-cluster-on-proxmox/refs/heads/main/scripts/bootstrap.sh
-
--- これでもいけた
-curl -H "Authorization: token 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" \
-    https://raw.githubusercontent.com/nnaka-git/kube-cluster-on-proxmox/refs/heads/main/scripts/bootstrap.sh
-
-```
