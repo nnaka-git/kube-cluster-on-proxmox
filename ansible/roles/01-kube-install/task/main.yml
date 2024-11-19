@@ -1,0 +1,2 @@
+# Controlplane と Workerで共通のタスク
+#- debug: msg="{{ ansible_facts }}"

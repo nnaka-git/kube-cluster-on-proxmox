@@ -1,25 +1,5 @@
 ---
-# - name: 01-ssh-keygen
-#   hosts: kube_cp
-#   roles:
-#     - 01-ssh-keygen
-
-# - name: 02-setup-sshd-config
-#   hosts: kube_servers
-#   roles:
-#     - 02-setup-sshd-config
-
-- name: 11-kube-install
-  hosts: kube-servers-cp-follower-with-ssh
+- name: 01-kube-install
+  hosts: all
   roles:
-    - 11-kubeadm-join-cp
-
-# - name: 12-kubeadm-join-wk
-#   hosts: kube-servers-wk-with-ssh
-#   roles:
-#     - 12-kubeadm-join-wk
-
-# - name: 21-copy-kubeconfig
-#   hosts: kube-servers-cp-with-ssh
-#   roles:
-#     - 21-copy-kubeconfig
+    - 01-kube-install
