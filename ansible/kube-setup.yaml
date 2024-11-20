@@ -1,4 +1,14 @@
 ---
+- name: 01-ssh-keygen
+  hosts: kube_cp
+  roles:
+    - 01-ssh-keygen
+
+- name: 02-setup-sshd-config
+  hosts: kube_cp
+  roles:
+    - 02-setup-sshd-config
+
 - name: 01-kube-install
   hosts: all
   roles:
