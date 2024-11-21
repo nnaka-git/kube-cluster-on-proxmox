@@ -7,6 +7,7 @@
   register: kubernetes_repo
 
 - name: install kubernetes.repo
+  become: yes
   template:
     src: kubernetes.repo
     dest: /etc/yum.repos.d/kubernetes.repo
@@ -19,6 +20,7 @@
   register: crio_repo
 
 - name: install kubernetes.repo
+  become: yes
   template:
     src: cri-o.repo
     dest: /etc/yum.repos.d/cri-o.repo
