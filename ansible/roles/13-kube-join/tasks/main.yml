@@ -4,6 +4,5 @@
 ## kubeadmのJoinコマンドをコントロールプレーンからコピーする
 - name: Copy join command file from controlplane
   ansible.builtin.copy:
-    remote_src: true
     src: /tmp/kubeadm-join.yaml
     dest: /tmp/kubeadm-join.yaml
