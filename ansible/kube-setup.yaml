@@ -9,7 +9,7 @@
   roles:
     - 02-setup-sshd-config
 
-- name: 01-kube-install
+- name: 11-kube-install
   hosts: kube_servers_with_key
   roles:
     - 11-kube-install
