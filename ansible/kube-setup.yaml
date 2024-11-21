@@ -19,3 +19,7 @@
   roles:
     - 12-kube-init
 
+- name: 13-kube-join
+  hosts: kube_wk_with_key
+  roles:
+    - 13-kube-join
