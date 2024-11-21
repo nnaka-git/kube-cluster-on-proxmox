@@ -1,8 +1,12 @@
 # Worker のみのタスク
 #- debug: msg="{{ ansible_facts }}"
 
-## kubeadmのJoinコマンドをコントロールプレーンからコピーする
+## kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
 - name: Copy join command file from controlplane
   ansible.builtin.copy:
     src: /tmp/kubeadm-join.yaml
     dest: /tmp/kubeadm-join.yaml
+- name: include kubeadm join token etc
+  include_vars: /tmp/kubeadm-join.yaml
+- name: kubeadm join
+  command: "{{ join_command }}"  
