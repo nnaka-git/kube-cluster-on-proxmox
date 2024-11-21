@@ -5,3 +5,4 @@ roles: []
 
 collections:
 - ansible.posix
+- community.crypto
