@@ -31,7 +31,7 @@
   become: yes
   dnf:
     name:
-      - cotainer-selinux
+      - container-selinux
       - cri-o
       - kubelet
       - kubeadm
