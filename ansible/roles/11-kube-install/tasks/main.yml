@@ -26,3 +26,25 @@
     dest: /etc/yum.repos.d/cri-o.repo
   when:
     - crio_repo.stat.exists == false
+
+- name: install container-selinux cri-o kubelet kubeadm kubectl
+  dnf:
+    name:
+      - cotainer-selinux
+      - cri-o
+      - kubelet
+      - kubeadm
+      - kubectl
+    state: present
+
+- name: start crio
+  systemd:
+    name: crio
+    state: started
+    enabled: yes
+
+- name: enable kubelet
+  systemd:
+    name: kubelet
+    state: started
+    enabled: yes
