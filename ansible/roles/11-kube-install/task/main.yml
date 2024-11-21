@@ -1,2 +1,26 @@
 # Controlplane と Workerで共通のタスク
 #- debug: msg="{{ ansible_facts }}"
+
+- name: check exisiting /etc/yum.repos.d/kubernetes.repo
+  stat:
+    path: "/etc/yum.repos.d/kubernetes.repo"
+  register: kubernetes_repo
+
+- name: install kubernetes.repo
+  template:
+    src: kubernetes.repo
+    dest: /etc/yum.repos.d/kubernetes.repo
+  when:
+    - kubernetes_repo.stat.exists == false
+
+- name: check exisiting /etc/yum.repos.d/cri-o.repo
+  stat:
+    path: "/etc/yum.repos.d/cri-o.repo"
+  register: crio_repo
+
+- name: install kubernetes.repo
+  template:
+    src: cri-o.repo
+    dest: /etc/yum.repos.d/cri-o.repo
+  when:
+    - crio_repo.stat.exists == false

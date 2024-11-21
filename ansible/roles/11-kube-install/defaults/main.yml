@@ -1,0 +1,10 @@
+# default var file
+---
+#
+# Version info from https://github.com/cri-o/packaging/blob/main/README.md#usage
+#
+
+# Kubernetes Package Version
+KUBERNETES_VERSION: v1.31
+# CRIO Package Version
+CRIO_VERSION: v1.31
