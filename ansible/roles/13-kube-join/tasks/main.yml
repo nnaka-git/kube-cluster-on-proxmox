@@ -9,4 +9,5 @@
 - name: include kubeadm join token etc
   include_vars: /tmp/kubeadm-join.yaml
 - name: kubeadm join
+  become: yes
   command: "{{ join_command }}"  
