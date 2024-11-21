@@ -28,6 +28,7 @@
     - crio_repo.stat.exists == false
 
 - name: install container-selinux cri-o kubelet kubeadm kubectl
+  become: yes
   dnf:
     name:
       - cotainer-selinux
@@ -38,12 +39,14 @@
     state: present
 
 - name: start crio
+  become: yes
   systemd:
     name: crio
     state: started
     enabled: yes
 
 - name: enable kubelet
+  become: yes
   systemd:
     name: kubelet
     state: started
