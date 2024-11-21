@@ -51,3 +51,19 @@
     name: kubelet
     state: started
     enabled: yes
+
+- name: disable swap
+  become: yes
+  command: swapoff -a
+
+- name: modprebe br_netfilter
+  become: yes
+  command: modprobe br_netfilter
+
+- sysctl:
+  become: yes
+    name: net.ipv4.ip_forward
+    value: '1'
+    state: present
+    sysctl_set: false
+    reload: true
