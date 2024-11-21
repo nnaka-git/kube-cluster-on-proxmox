@@ -1,0 +1,8 @@
+# default var file
+---
+#
+# CIDR fro flannel from https://github.com/flannel-io/flannel
+#
+
+# CIDR for flannel
+flannel_cidr: 10.244.0.0/16

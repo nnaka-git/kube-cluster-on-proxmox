@@ -13,3 +13,9 @@
   hosts: kube_servers_with_key
   roles:
     - 11-kube-install
+
+- name: 12-kube-init
+  hosts: kube_cp_with_key
+  roles:
+    - 12-kube-init
+
