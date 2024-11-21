@@ -60,10 +60,6 @@
   become: yes
   command: modprobe br_netfilter
 
-- sysctl:
+- name: ip fowarding setting
   become: yes
-    name: net.ipv4.ip_forward
-    value: '1'
-    state: present
-    sysctl_set: false
-    reload: true
+  sysctl: name="net.ipv4.ip_forward" value=1 
