@@ -4,3 +4,4 @@ baseurl=https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_VERSION }}/rpm/
 enabled=1
 gpgcheck=1
 gpgkey=https://pkgs.k8s.io/core:/stable:/{{ KUBERNETES_VERSION }}/rpm/repodata/repomd.xml.key
+
