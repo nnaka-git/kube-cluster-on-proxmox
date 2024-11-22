@@ -1,13 +1,28 @@
 # Worker のみのタスク
 #- debug: msg="{{ ansible_facts }}"
 
-## kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
-- name: Copy join command file from controlplane
-  ansible.builtin.copy:
-    src: /tmp/kubeadm-join.yaml
-    dest: /tmp/kubeadm-join.yaml
-- name: include kubeadm join token etc
-  include_vars: /tmp/kubeadm-join.yaml
-- name: kubeadm join
+
+- name: Copy admin.conf to user's kube config
   become: yes
-  command: "{{ join_command }}"  
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/cloudinit/.kube/config
+    owner: cloudinit
+    group: cloudinit
+    mode: 0600
+
+- name: Check if node is part of cluster
+	shell: kubectl get nodes | grep -q {{ ansible_facts['hostname'] }}
+	register: node_status
+	changed_when: false
+
+## kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
+# - name: Copy join command file from controlplane
+#   ansible.builtin.copy:
+#     src: /tmp/kubeadm-join.yaml
+#     dest: /tmp/kubeadm-join.yaml
+# - name: include kubeadm join token etc
+#   include_vars: /tmp/kubeadm-join.yaml
+# - name: kubeadm join
+#   become: yes
+#   command: "{{ join_command }}"  

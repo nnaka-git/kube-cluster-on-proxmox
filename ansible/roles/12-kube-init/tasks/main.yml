@@ -20,3 +20,12 @@
   shell: echo "join_command" ":" {{ join_command.stdout_lines[-2] }} {{ join_command.stdout_lines[-1] }} > /tmp/kubeadm-join.yaml
   when:
     - kubeadm_join.stat.exists == false
+
+## 環境変数を.bashrcに追記する
+- name: Add KUBECONFIG to .bashrc 
+  become: yes
+  blockinfile:
+    path: /root/.bashrc
+    marker: "# {mark} add by cloudinit for Kubernetes"
+    block: |
+      export KUBECONFIG=/etc/kubernetes/admin.conf
