@@ -19,9 +19,9 @@
     mode: 0600
 
 - name: Check if node is part of cluster
-	shell: kubectl get nodes | grep -q {{ ansible_facts['hostname'] }}
-	register: node_status
-	changed_when: false
+  shell: kubectl get nodes | grep -q {{ ansible_facts['hostname'] }}
+  register: node_status
+  changed_when: false
 
 ## kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
 # - name: Copy join command file from controlplane
