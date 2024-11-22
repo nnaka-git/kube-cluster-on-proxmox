@@ -17,7 +17,7 @@
   when: flannel_status.rc != 0
 
 - name: Deploy Flannel 
-  command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/template/kube-flannel.yml
+  command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/kube-flannel.yml
   when: flannel_status.rc != 0
 
 ## metallb インストール
