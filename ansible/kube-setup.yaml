@@ -9,22 +9,22 @@
   roles:
     - 02-setup-sshd-config
 
-# - name: 11-kube-install
-#   hosts: kube_servers_with_key
-#   roles:
-#     - 11-kube-install
+- name: 11-kube-install
+  hosts: kube_servers_with_key
+  roles:
+    - 11-kube-install
 
-# - name: 12-kube-init
-#   hosts: kube_cp_with_key
-#   roles:
-#     - 12-kube-init
+- name: 12-kube-init
+  hosts: kube_cp_with_key
+  roles:
+    - 12-kube-init
 
-# - name: 13-kube-join
-#   hosts: kube_wk_with_key
-#   roles:
-#     - 13-kube-join
+- name: 13-kube-join
+  hosts: kube_wk_with_key
+  roles:
+    - 13-kube-join
 
-# - name: 14-kube-config
-#   hosts: kube_cp_with_key
-#   roles:
-#     - 14-kube-config
+- name: 14-kube-config
+  hosts: kube_cp_with_key
+  roles:
+    - 14-kube-config
