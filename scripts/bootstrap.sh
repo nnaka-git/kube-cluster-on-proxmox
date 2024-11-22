@@ -8,4 +8,4 @@ git clone https://github.com/nnaka-git/kube-cluster-on-proxmox.git "$HOME"/kube-
 export ANSIBLE_CONFIG="$HOME"/kube-cluster-on-proxmox/ansible/ansible.cfg
 ansible-galaxy role install -r "$HOME"/kube-cluster-on-proxmox/ansible/roles/requirements.yaml
 ansible-galaxy collection install -r "$HOME"/kube-cluster-on-proxmox/ansible/roles/requirements.yaml
-ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yaml
+# ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yaml
