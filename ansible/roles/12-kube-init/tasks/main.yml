@@ -29,3 +29,20 @@
     marker: "# {mark} add by cloudinit for Kubernetes"
     block: |
       export KUBECONFIG=/etc/kubernetes/admin.conf
+
+- name: mkdir kubeconfig
+  file:
+    path:  /home/cloudinit/.kube
+    state: directory
+    owner: cloudinit
+    group: cloudinit
+    mode:  '0755'
+
+- name: Copy admin.conf to user's kube config
+  become: yes
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/cloudinit/.kube/config
+    remote_src: yes
+    owner: cloudinit
+    group: cloudinit

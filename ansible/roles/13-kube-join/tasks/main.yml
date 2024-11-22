@@ -12,7 +12,7 @@
 - name: Copy admin.conf to user's kube config
   become: yes
   copy:
-    src: /etc/kubernetes/admin.conf
+    src: /home/cloudinit/.kube/config
     dest: /home/cloudinit/.kube/config
     owner: cloudinit
     group: cloudinit
