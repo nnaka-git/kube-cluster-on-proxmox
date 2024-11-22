@@ -46,3 +46,4 @@
     dest: /home/cloudinit/.kube/config
     owner: cloudinit
     group: cloudinit
+    mode:  '0600'
