@@ -23,3 +23,8 @@
   hosts: kube_wk_with_key
   roles:
     - 13-kube-join
+
+- name: 14-kube-config
+  hosts: kube_cp_with_key
+  roles:
+    - 14-kube-config
