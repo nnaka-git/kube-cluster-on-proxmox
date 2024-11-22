@@ -1,6 +1,10 @@
 # Controlplane と Workerで共通のタスク
 #- debug: msg="{{ ansible_facts }}"
 
+- name: Wait 300 seconds for port 22
+  wait_for:
+    port: 22
+
 - name: check exisiting /etc/yum.repos.d/kubernetes.repo
   stat:
     path: "/etc/yum.repos.d/kubernetes.repo"
@@ -75,4 +79,4 @@
 
 - name: ip fowarding setting
   become: yes
-  sysctl: name="net.ipv4.ip_forward" value=1 
+  sysctl: name="net.ipv4.ip_forward" value=1
