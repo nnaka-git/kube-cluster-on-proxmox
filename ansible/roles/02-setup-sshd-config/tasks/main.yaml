@@ -13,9 +13,12 @@
     state: present
   loop:
     - { key: "PermitRootLogin", value: "no" }
-    - { key: "PasswordAuthentication", value: "no" } 
- 
-- name: restart sshd
-  become: yes
-  service: name=sshd state=restarted
- 
+    - { key: "PasswordAuthentication", value: "no" }
+  notify:
+    - require_reload_sshd
+
+  handlers:
+    - name: restart sshd
+      become: yes
+      service: name=sshd state=restarted
+      listen: require_reload_sshd
