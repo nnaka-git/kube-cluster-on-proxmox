@@ -11,8 +11,10 @@
 
 - name: Copy admin.conf to user's kube config
   become: yes
-  copy:
-    src: /home/cloudinit/.kube/config
+#  copy:
+  ansible.builtin.copy:
+    # src: /home/cloudinit/.kube/config
+    src: /etc/kubernetes/admin.conf
     dest: /home/cloudinit/.kube/config
     owner: cloudinit
     group: cloudinit
