@@ -11,10 +11,8 @@
 
 - name: Copy admin.conf to user's kube config
   become: yes
-#  copy:
-  ansible.builtin.copy:
-    # src: /home/cloudinit/.kube/config
-    src: /etc/kubernetes/admin.conf
+  copy:
+    src: /home/cloudinit/.kube/config
     dest: /home/cloudinit/.kube/config
     owner: cloudinit
     group: cloudinit
@@ -25,13 +23,18 @@
   register: node_status
   changed_when: false
 
-## kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
-# - name: Copy join command file from controlplane
-#   ansible.builtin.copy:
-#     src: /tmp/kubeadm-join.yaml
-#     dest: /tmp/kubeadm-join.yaml
-# - name: include kubeadm join token etc
-#   include_vars: /tmp/kubeadm-join.yaml
-# - name: kubeadm join
-#   become: yes
-#   command: "{{ join_command }}"  
+# kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
+- name: Copy join command file from controlplane
+  copy:
+    src: /tmp/kubeadm-join.yaml
+    dest: /tmp/kubeadm-join.yaml
+  when: node_status.rc == false
+
+- name: include kubeadm join token etc
+  include_vars: /tmp/kubeadm-join.yaml
+  when: node_status.rc == false
+
+- name: kubeadm join
+  become: yes
+  command: "{{ join_command }}"  
+  when: node_status.rc == false
