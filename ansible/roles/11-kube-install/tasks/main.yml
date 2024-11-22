@@ -32,9 +32,11 @@
     path: "/usr/local/bin/helm"
   register: helm
 
+# ANSIBLE実行時に /usr/local/bin がPATHに見えないことから必ずエラーとなるので無視
 - name: install helm
   become: yes
   shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  ignore_errors: yes
   when:
     - helm.stat.exists == false
 

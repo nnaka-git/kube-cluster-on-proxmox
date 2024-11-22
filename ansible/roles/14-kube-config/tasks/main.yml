@@ -1,0 +1,48 @@
+# コントローラー のみのタスク
+#- debug: msg="{{ ansible_facts }}"
+
+## flannel インストール
+## flannel がインストールされているかをチェックする
+- name: Check if flannel is installed
+  shell: kubectl get pods -A | grep -q flannel
+  register: flannel_status
+  changed_when: false
+
+- name: Download a manifest of Flannel for k8s
+  get_url:
+    url: https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+    dest: /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/template
+    mode: '0644'
+  when: flannel_status.rc != 0
+
+- name: Deploy Flannel 
+  command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/template/kube-flannel.yml
+  when: flannel_status.rc != 0
+
+## metallb インストール
+## kubernetesのproxy設定の、strictARPをtrueに設定
+- name: Change kubernetes proxy settings
+  shell: |
+    kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
+
+## metallb がインストールされているかをチェックする
+- name: Check if metallb is installed
+  shell: kubectl get pods -A | grep -q metallb
+  register: metallb_status
+  changed_when: false
+
+- name: Download a manifest of Metallb for k8s
+  get_url:
+    url: https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
+    dest: /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/template
+    mode: '0644'
+  when: metallb_status.rc != 0
+
+- name: Deploy Metallb 
+  command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/template/metallb-native.yaml
+  when: metallb_status.rc != 0
+
+- name: Deploy Metallb settings
+  command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/template/ipaddresspool.yaml
+  when: metallb_status.rc != 0
+
