@@ -27,6 +27,17 @@
   when:
     - crio_repo.stat.exists == false
 
+- name: check exisiting /usr/local/bin/helm
+  stat:
+    path: "/usr/local/bin/helm"
+  register: helm
+
+- name: install helm
+  become: yes
+  command: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+  when:
+    - helm.stat.exists == false
+
 - name: install container-selinux cri-o kubelet kubeadm kubectl
   become: yes
   dnf:
@@ -36,7 +47,6 @@
       - kubelet
       - kubeadm
       - kubectl
-      - helm
     state: present
 
 - name: start crio
