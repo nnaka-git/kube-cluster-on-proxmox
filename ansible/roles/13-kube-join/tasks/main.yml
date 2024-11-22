@@ -28,13 +28,13 @@
   copy:
     src: /tmp/kubeadm-join.yaml
     dest: /tmp/kubeadm-join.yaml
-  when: node_status.rc == false
+  when: node_status.rc != 0
 
 - name: include kubeadm join token etc
   include_vars: /tmp/kubeadm-join.yaml
-  when: node_status.rc == false
+  when: node_status.rc != 0
 
 - name: kubeadm join
   become: yes
   command: "{{ join_command }}"  
-  when: node_status.rc == false
+  when: node_status.rc != 0
