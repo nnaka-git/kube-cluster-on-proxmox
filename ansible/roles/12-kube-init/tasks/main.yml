@@ -42,6 +42,7 @@
   become: yes
   copy:
     src: /etc/kubernetes/admin.conf
+    remote_src: yes
     dest: /home/cloudinit/.kube/config
     owner: cloudinit
     group: cloudinit
