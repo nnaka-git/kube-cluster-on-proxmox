@@ -22,6 +22,7 @@
   shell: kubectl get nodes | grep -q {{ ansible_facts['hostname'] }}
   register: node_status
   changed_when: false
+  failed_when: node_status.rc not in [0,1]
 
 # kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
 - name: Copy join command file from controlplane

@@ -7,6 +7,7 @@
   shell: kubectl get pods -A | grep -q flannel
   register: flannel_status
   changed_when: false
+  failed_when: flannel_status.rc not in [0,1]
 
 - name: Download a manifest of Flannel for k8s
   get_url:
@@ -30,6 +31,7 @@
   shell: kubectl get pods -A | grep -q metallb
   register: metallb_status
   changed_when: false
+  failed_when: metallb_status.rc not in [0,1]
 
 - name: Download a manifest of Metallb for k8s
   get_url:
