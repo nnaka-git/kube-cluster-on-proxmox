@@ -13,10 +13,10 @@
   get_url:
     url: https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
     dest: /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates
-    mode: '0644'
+    mode: "0644"
   when: flannel_status.rc != 0
 
-- name: Deploy Flannel 
+- name: Deploy Flannel
   command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/kube-flannel.yml
   when: flannel_status.rc != 0
 
@@ -37,14 +37,13 @@
   get_url:
     url: https://raw.githubusercontent.com/metallb/metallb/v0.14.8/config/manifests/metallb-native.yaml
     dest: /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates
-    mode: '0644'
+    mode: "0644"
   when: metallb_status.rc != 0
 
-- name: Deploy Metallb 
+- name: Deploy Metallb
   command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/metallb-native.yaml
   when: metallb_status.rc != 0
 
 - name: Deploy Metallb settings
-  command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/ipaddresspool.yaml
+  command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/ipaddresspool.yml
   when: metallb_status.rc != 0
-
