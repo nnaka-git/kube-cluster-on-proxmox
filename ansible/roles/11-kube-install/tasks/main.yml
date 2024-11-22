@@ -36,6 +36,7 @@
       - kubelet
       - kubeadm
       - kubectl
+      - helm
     state: present
 
 - name: start crio
@@ -63,19 +64,3 @@
 - name: ip fowarding setting
   become: yes
   sysctl: name="net.ipv4.ip_forward" value=1 
-
-- name: Check if Helm GPG key exists
-  stat:
-    path: /etc/apt/keyrings/helm.gpg
-  register: helm_gpg_key
-  changed_when: false
-
-- name:  Add Helm GPG key
-  shell: curl https://baltocdn.com/helm/signing.asc | gpg --dearmor --batch --yes --output /etc/apt/keyrings/helm.gpg
-  when: not helm_gpg_key.stat.exists
-
-- name: Add Helm apt repository
-  lineinfile:
-    path: /etc/apt/sources.list.d/helm.list
-    line: deb [signed-by=/etc/apt/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main
-    create: yes
