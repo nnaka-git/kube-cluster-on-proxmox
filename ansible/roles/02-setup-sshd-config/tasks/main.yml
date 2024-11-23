@@ -1,4 +1,5 @@
 - name: Copy file
+  become: yes
   ansible.builtin.copy:
     src: /home/cloudinit/.ssh/id_ed25519.pub
     dest: /home/cloudinit/.ssh/id_ed25519.pub
