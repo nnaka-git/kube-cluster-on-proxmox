@@ -5,7 +5,7 @@
     - 01-ssh-keygen
 
 - name: 02-setup-sshd-config
-  hosts: kube_servers_with_key
+  hosts: kube_servers
   roles:
     - 02-setup-sshd-config
 
