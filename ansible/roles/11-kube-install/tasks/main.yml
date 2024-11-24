@@ -1,8 +1,4 @@
-# Controlplane と Workerで共通のタスク
-#- debug: msg="{{ ansible_facts }}"
-- name: Wait 600 seconds for target connection to become reachable/usable
-  ansible.builtin.wait_for_connection:
-
+# Common tasks for control plane and worker plane
 - name: check exisiting /etc/yum.repos.d/kubernetes.repo
   stat:
     path: "/etc/yum.repos.d/kubernetes.repo"

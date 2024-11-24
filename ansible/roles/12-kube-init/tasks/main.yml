@@ -1,15 +1,12 @@
-# Controlplane のみのタスク
-#- debug: msg="{{ ansible_facts }}"
-- name: Wait 600 seconds for target connection to become reachable/usable
-  ansible.builtin.wait_for_connection:
+# Only control plane tasks
 
-## Kubeadm init が実行されているかをチェックする
+## Check for pre Kubeadm tasks
 - name: check exisiting /tmp/kubeadm-join.yaml
   stat:
     path: "/tmp/kubeadm-join.yaml"
   register: kubeadm_join
 
-## Kubeadm init コマンドを実行し記録する
+## Kubeadm init and join comamnd regist
 - name: kubeadm init
   become: yes
   command: kubeadm init --pod-network-cidr={{ flannel_cidr }}
@@ -17,13 +14,13 @@
   when:
     - kubeadm_join.stat.exists == false
 
-## kubeadm ノード用コマンドを保存
+## Save kubeadm join command
 - name: create kubeadm join command
   shell: echo "join_command" ":" {{ join_command.stdout_lines[-2] }} {{ join_command.stdout_lines[-1] }} > /tmp/kubeadm-join.yaml
   when:
     - kubeadm_join.stat.exists == false
 
-## 環境変数を.bashrcに追記する
+## Add environment variables to .bashrc
 - name: Add KUBECONFIG to .bashrc
   become: yes
   blockinfile:
@@ -32,6 +29,7 @@
     block: |
       export KUBECONFIG=/etc/kubernetes/admin.conf
 
+## Make dir for .kube
 - name: mkdir kubeconfig
   file:
     path: /home/cloudinit/.kube
@@ -40,6 +38,7 @@
     group: cloudinit
     mode: "0755"
 
+# Copy admin.conf to user's kube config
 - name: Copy admin.conf to user's kube config
   become: yes
   copy:
@@ -48,4 +47,4 @@
     dest: /home/cloudinit/.kube/config
     owner: cloudinit
     group: cloudinit
-    # mode: "0600"
+    mode: "0600"

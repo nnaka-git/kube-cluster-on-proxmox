@@ -1,8 +1,5 @@
-# Worker のみのタスク
-#- debug: msg="{{ ansible_facts }}"
-- name: Wait 600 seconds for target connection to become reachable/usable
-  ansible.builtin.wait_for_connection:
-
+# Only worker plane tasks
+## Make dir for .kube
 - name: mkdir kubeconfig
   file:
     path: /home/cloudinit/.kube
@@ -11,6 +8,7 @@
     group: cloudinit
     mode: "0755"
 
+## Copy admin.conf from Ansible control node
 - name: Copy admin.conf to user's kube config
   become: yes
   copy:
@@ -20,14 +18,15 @@
     group: cloudinit
     mode: 0600
 
+# Check if node is part of cluster
 - name: Check if node is part of cluster
   shell: kubectl get nodes | grep -q {{ ansible_facts['hostname'] }}
   register: node_status
   changed_when: false
   failed_when: node_status.rc not in [0,1]
 
-# kubeadmのJoinコマンドをコントロールプレーンからコピーし参加する
-- name: Copy join command file from controlplane
+# Copy join commmand file from control plane
+- name: Copy join command file from control plane
   copy:
     src: /tmp/kubeadm-join.yaml
     dest: /tmp/kubeadm-join.yaml

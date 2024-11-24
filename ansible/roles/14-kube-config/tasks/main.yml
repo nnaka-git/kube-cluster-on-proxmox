@@ -1,10 +1,6 @@
-# コントローラー のみのタスク
-#- debug: msg="{{ ansible_facts }}"
-- name: Wait 600 seconds for target connection to become reachable/usable
-  ansible.builtin.wait_for_connection:
+# Only control plane tasks
 
-## flannel インストール
-## flannel がインストールされているかをチェックする
+## Check if flannel is installed
 - name: Check if flannel is installed
   shell: kubectl get pods -A | grep -q flannel
   register: flannel_status
@@ -22,7 +18,7 @@
   command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/kube-flannel.yml
   when: flannel_status.rc != 0
 
-## metallb インストール
+## metallb install
 ## kubernetesのproxy設定の、strictARPをtrueに設定
 - name: Change kubernetes proxy settings
   shell: |
