@@ -75,6 +75,17 @@
   become: yes
   command: modprobe br_netfilter
 
+- name: check exisiting /etc/modules-load.d/br_netfilter.conf
+  stat:
+    path: "/etc/modules-load.d/br_netfilter.conf"
+  register: br_netfilter
+
+- name: install kubernetes.repo
+  become: yes
+  shell: echo "br_netfilter" > /etc/modules-load.d/br_netfilter.conf
+  when:
+    - br_netfilter.stat.exists == false
+
 - name: ip fowarding setting
   become: yes
   sysctl: name="net.ipv4.ip_forward" value=1
