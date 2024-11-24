@@ -1,10 +1,8 @@
 #!/bin/bash
 # Exit except control-plane
-if [$1 = "kube-cp1"]; then
-    ;;
-else
+if [ $1 -ne "kube-cp1" ]; then
     exit 0
-if
+fi
 
 # Install Ansible
 sudo dnf install -y ansible-core
