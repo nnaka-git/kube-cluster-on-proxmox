@@ -42,8 +42,16 @@
     mode: "0644"
   when: metallb_status.rc != 0
 
+- name: Wait for flannel pods Running for 3minits
+  command: kubectl wait pod --all -n kube-flannel --for=condition=ready --timeout=3m --field-selector=status.phase!=Succeeded
+  when: metallb_status.rc != 0
+
 - name: Deploy Metallb
   command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/metallb-native.yaml
+  when: metallb_status.rc != 0
+
+- name: Wait for Metallb pods Running for 3minits
+  command: kubectl wait pod --all -n metallb-system --for=condition=ready --timeout=3m --field-selector=status.phase!=Succeeded
   when: metallb_status.rc != 0
 
 - name: Deploy Metallb settings
