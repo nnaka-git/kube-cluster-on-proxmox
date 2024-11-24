@@ -1,6 +1,6 @@
 #!/bin/bash
 # Exit except control-plane
-if [ $1 -ne "kube-cp1" ]; then
+if [ $1 != "kube-cp1" ]; then
     exit 0
 fi
 
