@@ -18,4 +18,4 @@ export ANSIBLE_CONFIG="$HOME"/kube-cluster-on-proxmox/ansible/ansible.cfg
 ansible-galaxy role install -r "$HOME"/kube-cluster-on-proxmox/ansible/roles/requirements.yml
 ansible-galaxy collection install -r "$HOME"/kube-cluster-on-proxmox/ansible/roles/requirements.yml
 # ansible-playbook
-ansible-playbook -vvvv "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml
