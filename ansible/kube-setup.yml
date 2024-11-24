@@ -1,11 +1,13 @@
 ---
 - name: 01-ssh-keygen
   hosts: kube_cp
+  serial: 1
   roles:
     - 01-ssh-keygen
 
 - name: 02-setup-sshd-config
   hosts: kube_servers
+  serial: 1
   roles:
     - 02-setup-sshd-config
 # - name: 11-kube-install
