@@ -1,5 +1,7 @@
 # Controlplane のみのタスク
 #- debug: msg="{{ ansible_facts }}"
+- name: Wait 600 seconds for target connection to become reachable/usable
+  ansible.builtin.wait_for_connection:
 
 ## Kubeadm init が実行されているかをチェックする
 - name: check exisiting /tmp/kubeadm-join.yaml
@@ -22,7 +24,7 @@
     - kubeadm_join.stat.exists == false
 
 ## 環境変数を.bashrcに追記する
-- name: Add KUBECONFIG to .bashrc 
+- name: Add KUBECONFIG to .bashrc
   become: yes
   blockinfile:
     path: /root/.bashrc
@@ -32,11 +34,11 @@
 
 - name: mkdir kubeconfig
   file:
-    path:  /home/cloudinit/.kube
+    path: /home/cloudinit/.kube
     state: directory
     owner: cloudinit
     group: cloudinit
-    mode:  '0755'
+    mode: "0755"
 
 - name: Copy admin.conf to user's kube config
   become: yes
@@ -46,4 +48,4 @@
     dest: /home/cloudinit/.kube/config
     owner: cloudinit
     group: cloudinit
-    mode:  '0600'
+    mode: "0600"

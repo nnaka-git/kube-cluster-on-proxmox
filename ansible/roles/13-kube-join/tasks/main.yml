@@ -1,13 +1,15 @@
 # Worker のみのタスク
 #- debug: msg="{{ ansible_facts }}"
+- name: Wait 600 seconds for target connection to become reachable/usable
+  ansible.builtin.wait_for_connection:
 
 - name: mkdir kubeconfig
   file:
-    path:  /home/cloudinit/.kube
+    path: /home/cloudinit/.kube
     state: directory
     owner: cloudinit
     group: cloudinit
-    mode:  '0755'
+    mode: "0755"
 
 - name: Copy admin.conf to user's kube config
   become: yes
@@ -37,5 +39,5 @@
 
 - name: kubeadm join
   become: yes
-  command: "{{ join_command }}"  
+  command: "{{ join_command }}"
   when: node_status.rc != 0
