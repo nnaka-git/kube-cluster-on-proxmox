@@ -1,5 +1,5 @@
 # Only worker plane tasks
-## Make dir for .kube
+# Make dir for .kube
 - name: mkdir kubeconfig
   file:
     path: /home/cloudinit/.kube
@@ -8,7 +8,7 @@
     group: cloudinit
     mode: "0755"
 
-## Copy admin.conf from Ansible control node
+# Copy admin.conf from Ansible control node
 - name: Copy admin.conf to user's kube config
   become: yes
   copy:

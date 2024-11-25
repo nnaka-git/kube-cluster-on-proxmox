@@ -30,7 +30,7 @@
     path: "/usr/local/bin/helm"
   register: helm
 
-# ANSIBLE実行時に /usr/local/bin がPATHに見えないことから必ずエラーとなるので無視
+# Ignore error because ansible cannot read the $PATH (/usr/local/bin)
 - name: install helm
   become: yes
   shell: curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash

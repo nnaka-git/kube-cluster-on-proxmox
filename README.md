@@ -1,7 +1,6 @@
 ```bash
 # cloudinitの実行ログチェック(トラブルシュート用)
-# だいたいのスクリプトは kube-cp1で動いてます
-## check cloud-init 
+## check cloud-init
 ssh kube-cp1 "sudo cloud-init query userdata"
 ssh kube-cp1 "sudo cloud-init schema --system --annotate"
 
@@ -31,13 +30,12 @@ ssh kube-cp1 "sudo journalctl -u cloud-final.service"
 ssh kube-wk1 "sudo journalctl -u cloud-final.service"
 ssh kube-wk2 "sudo journalctl -u cloud-final.service"
 ```
+
 ```bash
--- 共通設定 ----------------------------------------------------
--- from https://github.com/cri-o/packaging/blob/main/README.md/
--- 
+-- 全サーバー（kube-cp1/kube-wk1/kube-wk2 共通の手順
 -- 最初にコンテナーランタイム（crioとkubernetesをインストールする）
 
--- crio 公式より
+-- バージョン環境変数の設定
 KUBERNETES_VERSION=v1.31
 CRIO_VERSION=v1.31
 
@@ -63,28 +61,30 @@ gpgcheck=1
 gpgkey=https://pkgs.k8s.io/addons:/cri-o:/stable:/$CRIO_VERSION/rpm/repodata/repomd.xml.key
 EOF
 
+# インストール
 dnf install -y container-selinux
 dnf install -y cri-o kubelet kubeadm kubectl
 
+# サービスの有効化
 systemctl start crio.service
 systemctl enable crio.service
 systemctl enable kubelet.service
 
+# その他設定（swap off modprobe）
 swapoff -a
 modprobe br_netfilter
 sysctl -w net.ipv4.ip_forward=1
 
 
--- 共通設定 ---------------------------------------------------- END
-
 -- コントロールプレーンでのみ作業-------------------------------------
 kubeadm init --pod-network-cidr=10.244.0.0/16
 ※flannelを使うから下が正解と思われる
 
-	-- workerの参加コマンドが表示されるので、ここでwk1,wk2を参加させる
+	-- workerの参加コマンドが表示されるので、ここで表示されたjoinコマンドを使いWokerを参加させる
 	確認コマンド
 	kubectl get nodes
 
+# 設定ファイルコピー
 -- rootはこれ
 export KUBECONFIG=/etc/kubernetes/admin.conf
 .bashrcにも追記
@@ -102,11 +102,6 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 
 -- 確認コマンド
 kubectl get pods -A
-
--- そもそもkubeadm init の際に --pod-network-cidrでCIDRを指定しておけば問題なかったのか？
--- 参考：https://ghostzapper.hatenablog.com/entry/2021/11/16/120402
-
-
 
 -- metallb (ロードバランサー）
 -- kubernetesのproxy設定が、strictARPになっているかどうかを
@@ -152,15 +147,9 @@ kubectl get pods -n kube-flannel
 
 # pod kube-flannel-ds-bqx4j のログ確認
 kubectl logs -n kube-flannel kube-flannel-ds-bqx4j
-
-
-
+# pod の状態確認
 kubectl describe pods/kube-flannel-ds-bqx4j -n kube-flannel
 kubectl describe pods/kube-flannel-ds-cjvpg -n kube-flannel
 kubectl describe pods/kube-flannel-ds-g2dls -n kube-flannel
 
-
--- ワーカーでこれで参加させる ----------------------------------
-kubeadm join 192.168.1.111:6443 --token 7vly8b.5eud346tlqadwv4v \
-        --discovery-token-ca-cert-hash sha256:eab62cea2e0c837f2d62687f97d3688e03bd0cc26738e1260eaa30be6763e0eb
--- ワーカーでこれで参加させる ----------------------------------
+```

@@ -1,12 +1,12 @@
 # Only control plane tasks
 
-## Check for pre Kubeadm tasks
+# Check for pre Kubeadm tasks
 - name: check exisiting /tmp/kubeadm-join.yaml
   stat:
     path: "/tmp/kubeadm-join.yaml"
   register: kubeadm_join
 
-## Kubeadm init and join comamnd regist
+# Kubeadm init and join comamnd regist
 - name: kubeadm init
   become: yes
   command: kubeadm init --pod-network-cidr={{ flannel_cidr }}
@@ -14,13 +14,13 @@
   when:
     - kubeadm_join.stat.exists == false
 
-## Save kubeadm join command
+# Save kubeadm join command
 - name: create kubeadm join command
   shell: echo "join_command" ":" {{ join_command.stdout_lines[-2] }} {{ join_command.stdout_lines[-1] }} > /tmp/kubeadm-join.yaml
   when:
     - kubeadm_join.stat.exists == false
 
-## Add environment variables to .bashrc
+# Add environment variables to .bashrc
 - name: Add KUBECONFIG to .bashrc
   become: yes
   blockinfile:
@@ -29,7 +29,7 @@
     block: |
       export KUBECONFIG=/etc/kubernetes/admin.conf
 
-## Make dir for .kube
+# Make dir for .kube
 - name: mkdir kubeconfig
   file:
     path: /home/cloudinit/.kube

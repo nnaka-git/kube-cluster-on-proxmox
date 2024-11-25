@@ -1,6 +1,7 @@
 # Only control plane tasks
 
-## Check if flannel is installed
+# flannel install
+# Check if flannel is installed
 - name: Check if flannel is installed
   shell: kubectl get pods -A | grep -q flannel
   register: flannel_status
@@ -18,13 +19,13 @@
   command: kubectl apply -f /home/cloudinit/kube-cluster-on-proxmox/ansible/roles/14-kube-config/templates/kube-flannel.yml
   when: flannel_status.rc != 0
 
-## metallb install
-## kubernetesのproxy設定の、strictARPをtrueに設定
+# metallb install
+# Change kubernetes's proxy settings
 - name: Change kubernetes proxy settings
   shell: |
     kubectl get configmap kube-proxy -n kube-system -o yaml | sed -e "s/strictARP: false/strictARP: true/" | kubectl apply -f - -n kube-system
 
-## metallb がインストールされているかをチェックする
+# Check if metallb is installed
 - name: Check if metallb is installed
   shell: kubectl get pods -A | grep -q metallb
   register: metallb_status
