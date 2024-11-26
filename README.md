@@ -1,37 +1,8 @@
-```bash
-# cloudinitの実行ログチェック(トラブルシュート用)
-## check cloud-init
-ssh kube-cp1 "sudo cloud-init query userdata"
-ssh kube-cp1 "sudo cloud-init schema --system --annotate"
+# Proxmox 上に Kubernetes の 3 ノードクラスタの VM を作成する
 
-## check /var/log/cloud-init-output.log
-ssh kube-cp1 "sudo cat /var/log/cloud-init-output.log"
-ssh kube-wk1 "sudo cat /var/log/cloud-init-output.log"
-ssh kube-wk2 "sudo cat /var/log/cloud-init-output.log"
+以下の手順を cloud-init、Ansible で実施
 
-## cloud-init.service - Initial cloud-init job (metadata service crawler)
-ssh kube-cp1 "sudo journalctl -u cloud-init.service"
-ssh kube-wk1 "sudo journalctl -u cloud-init.service"
-ssh kube-wk2 "sudo journalctl -u cloud-init.service"
-
-## cloud-init-local.service - Initial cloud-init job (pre-networking)
-ssh kube-cp1 "sudo journalctl -u cloud-init-local.service"
-ssh kube-wk1 "sudo journalctl -u cloud-init-local.service"
-ssh kube-wk2 "sudo journalctl -u cloud-init-local.service"
-
-## cloud-config.service - Apply the settings specified in cloud-config
-ssh kube-cp1 "sudo journalctl -u cloud-config.service"
-ssh kube-wk1 "sudo journalctl -u cloud-config.service"
-ssh kube-wk2 "sudo journalctl -u cloud-config.service"
-
-## cloud-final.service - Execute cloud user/final scripts
-## kube-node-setup.sh などのログはここにあります
-ssh kube-cp1 "sudo journalctl -u cloud-final.service"
-ssh kube-wk1 "sudo journalctl -u cloud-final.service"
-ssh kube-wk2 "sudo journalctl -u cloud-final.service"
 ```
-
-```bash
 -- 全サーバー（kube-cp1/kube-wk1/kube-wk2 共通の手順
 -- 最初にコンテナーランタイム（crioとkubernetesをインストールする）
 
@@ -74,7 +45,6 @@ systemctl enable kubelet.service
 swapoff -a
 modprobe br_netfilter
 sysctl -w net.ipv4.ip_forward=1
-
 
 -- コントロールプレーンでのみ作業-------------------------------------
 kubeadm init --pod-network-cidr=10.244.0.0/16
@@ -142,6 +112,43 @@ EOF
 
 kubectl apply -f ./ipAddressPool.yaml
 
+```
+
+```bash
+# cloudinitの実行ログチェック(トラブルシュート用)
+## check cloud-init
+ssh kube-cp1 "sudo cloud-init query userdata"
+ssh kube-cp1 "sudo cloud-init schema --system --annotate"
+
+## check /var/log/cloud-init-output.log
+ssh kube-cp1 "sudo cat /var/log/cloud-init-output.log"
+ssh kube-wk1 "sudo cat /var/log/cloud-init-output.log"
+ssh kube-wk2 "sudo cat /var/log/cloud-init-output.log"
+
+## cloud-init.service - Initial cloud-init job (metadata service crawler)
+ssh kube-cp1 "sudo journalctl -u cloud-init.service"
+ssh kube-wk1 "sudo journalctl -u cloud-init.service"
+ssh kube-wk2 "sudo journalctl -u cloud-init.service"
+
+## cloud-init-local.service - Initial cloud-init job (pre-networking)
+ssh kube-cp1 "sudo journalctl -u cloud-init-local.service"
+ssh kube-wk1 "sudo journalctl -u cloud-init-local.service"
+ssh kube-wk2 "sudo journalctl -u cloud-init-local.service"
+
+## cloud-config.service - Apply the settings specified in cloud-config
+ssh kube-cp1 "sudo journalctl -u cloud-config.service"
+ssh kube-wk1 "sudo journalctl -u cloud-config.service"
+ssh kube-wk2 "sudo journalctl -u cloud-config.service"
+
+## cloud-final.service - Execute cloud user/final scripts
+## kube-node-setup.sh などのログはここにあります
+ssh kube-cp1 "sudo journalctl -u cloud-final.service"
+ssh kube-wk1 "sudo journalctl -u cloud-final.service"
+ssh kube-wk2 "sudo journalctl -u cloud-final.service"
+
+```
+
+```bash
 # podの状態確認
 kubectl get pods -n kube-flannel
 
@@ -151,5 +158,4 @@ kubectl logs -n kube-flannel kube-flannel-ds-bqx4j
 kubectl describe pods/kube-flannel-ds-bqx4j -n kube-flannel
 kubectl describe pods/kube-flannel-ds-cjvpg -n kube-flannel
 kubectl describe pods/kube-flannel-ds-g2dls -n kube-flannel
-
 ```
