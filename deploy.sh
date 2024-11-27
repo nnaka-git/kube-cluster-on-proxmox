@@ -19,9 +19,9 @@ VM_LIST=(
     # vmsrvip:    VMのService Segment側NICに割り振る固定IP
     # ---
     #vmid #vmname #cpu #mem  #vmsrvip    
-    "1111 kube-cp1 2    4096  192.168.1.111"
-    "1112 kube-wk1 4    8192  192.168.1.112"
-    "1113 kube-wk2 4    8192  192.168.1.113"
+    "1121 kube-cp1 2    4096  192.168.1.121"
+    "1122 kube-wk1 4    8192  192.168.1.122"
+    "1123 kube-wk2 4    8192  192.168.1.123"
 )
 
 # endregion
