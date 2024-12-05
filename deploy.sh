@@ -2,6 +2,7 @@
 
 # region : set variables
 
+TARGET_BRANCH=$1
 TEMPLATE_VMID=9000
 CLOUDINIT_IMAGE_TARGET_VOLUME=local-lvm
 TEMPLATE_BOOT_IMAGE_TARGET_VOLUME=local-lvm
@@ -9,7 +10,7 @@ BOOT_IMAGE_TARGET_VOLUME=local-lvm
 SNIPPET_TARGET_VOLUME=local
 SNIPPET_TARGET_PATH=/var/lib/vz/snippets
 VM_DISK_IMAGE=/var/lib/vz/images/AlmaLinux-9-GenericCloud-latest.x86_64.qcow2
-REPOSITORY_RAW_SOURCE_URL=https://raw.githubusercontent.com/nnaka-git
+REPOSITORY_RAW_SOURCE_URL="https://raw.githubusercontent.com/nnaka-git/kube-cluster-on-proxmox/${TARGET_BRANCH}"
 VM_LIST=(
     # ---
     # vmid:       proxmox上でVMを識別するID
@@ -18,10 +19,10 @@ VM_LIST=(
     # mem:        VMに割り当てるメモリ(MB)
     # vmsrvip:    VMのService Segment側NICに割り振る固定IP
     # ---
-    #vmid #vmname #cpu #mem  #vmsrvip    
-    "1121 kube-cp1 2    4096  192.168.1.121"
-    "1122 kube-wk1 4    8192  192.168.1.122"
-    "1123 kube-wk2 4    8192  192.168.1.123"
+    #vmid #vmname    #cpu #mem  #vmsrvip    
+    "1120 k8s-master 2    4096  192.168.1.120"
+    "1121 k8s-node1  4    8192  192.168.1.121"
+    "1122 k8s-node2  4    8192  192.168.1.122"
 )
 
 # endregion
@@ -103,8 +104,8 @@ do
 			  - su - cloudinit -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
 			  - su - cloudinit -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
 			  - su - cloudinit -c "chmod 600 ~/.ssh/authorized_keys"
-			  - su - cloudinit -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/kube-cluster-on-proxmox/refs/heads/main/scripts/bootstrap.sh > ~/bootstrap.sh"
-			  - su - cloudinit -c "bash ~/bootstrap.sh ${vmname}"
+			  - su - cloudinit -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/scripts/bootstrap.sh > ~/bootstrap.sh"
+			  - su - cloudinit -c "bash ~/bootstrap.sh ${vmname} ${TARGET_BRANCH}"
 			  - su - cloudinit -c "sudo localedef -f UTF-8 -i ja_JP ja_JP"
 			# REBOOT
 			power_state:
