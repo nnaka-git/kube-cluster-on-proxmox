@@ -3,7 +3,7 @@
 以下の手順を cloud-init、Ansible で実施
 
 ```
--- 全サーバー（kube-cp1/kube-wk1/kube-wk2 共通の手順
+-- 全サーバー（kube-cp1/k8s-node1/k8s-node2 共通の手順
 -- 最初にコンテナーランタイム（crioとkubernetesをインストールする）
 
 -- バージョン環境変数の設定
@@ -122,29 +122,29 @@ ssh kube-cp1 "sudo cloud-init schema --system --annotate"
 
 ## check /var/log/cloud-init-output.log
 ssh kube-cp1 "sudo cat /var/log/cloud-init-output.log"
-ssh kube-wk1 "sudo cat /var/log/cloud-init-output.log"
-ssh kube-wk2 "sudo cat /var/log/cloud-init-output.log"
+ssh k8s-node1 "sudo cat /var/log/cloud-init-output.log"
+ssh k8s-node2 "sudo cat /var/log/cloud-init-output.log"
 
 ## cloud-init.service - Initial cloud-init job (metadata service crawler)
 ssh kube-cp1 "sudo journalctl -u cloud-init.service"
-ssh kube-wk1 "sudo journalctl -u cloud-init.service"
-ssh kube-wk2 "sudo journalctl -u cloud-init.service"
+ssh k8s-node1 "sudo journalctl -u cloud-init.service"
+ssh k8s-node2 "sudo journalctl -u cloud-init.service"
 
 ## cloud-init-local.service - Initial cloud-init job (pre-networking)
 ssh kube-cp1 "sudo journalctl -u cloud-init-local.service"
-ssh kube-wk1 "sudo journalctl -u cloud-init-local.service"
-ssh kube-wk2 "sudo journalctl -u cloud-init-local.service"
+ssh k8s-node1 "sudo journalctl -u cloud-init-local.service"
+ssh k8s-node2 "sudo journalctl -u cloud-init-local.service"
 
 ## cloud-config.service - Apply the settings specified in cloud-config
 ssh kube-cp1 "sudo journalctl -u cloud-config.service"
-ssh kube-wk1 "sudo journalctl -u cloud-config.service"
-ssh kube-wk2 "sudo journalctl -u cloud-config.service"
+ssh k8s-node1 "sudo journalctl -u cloud-config.service"
+ssh k8s-node2 "sudo journalctl -u cloud-config.service"
 
 ## cloud-final.service - Execute cloud user/final scripts
 ## kube-node-setup.sh などのログはここにあります
 ssh kube-cp1 "sudo journalctl -u cloud-final.service"
-ssh kube-wk1 "sudo journalctl -u cloud-final.service"
-ssh kube-wk2 "sudo journalctl -u cloud-final.service"
+ssh k8s-node1 "sudo journalctl -u cloud-final.service"
+ssh k8s-node2 "sudo journalctl -u cloud-final.service"
 
 ```
 
