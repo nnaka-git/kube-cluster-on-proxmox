@@ -1,30 +1,30 @@
 ---
 - name: 01-ssh-keygen
-  hosts: kube_cp
+  hosts: k8s-master
   roles:
     - 01-ssh-keygen
 
 - name: 02-setup-sshd-config
-  hosts: kube_servers
+  hosts: k8s-servers
   roles:
     - 02-setup-sshd-config
 
 - name: 11-kube-install
-  hosts: kube_servers_with_key
+  hosts: k8s-servers-with-key
   roles:
     - 11-kube-install
 
 - name: 12-kube-init
-  hosts: kube_cp_with_key
+  hosts: k8s-master-with-key
   roles:
     - 12-kube-init
 
 - name: 13-kube-join
-  hosts: k8s-node_with_key
+  hosts: k8s-node-with-key
   roles:
     - 13-kube-join
 
 - name: 14-kube-config
-  hosts: kube_cp_with_key
+  hosts: k8s-master-with-key
   roles:
     - 14-kube-config

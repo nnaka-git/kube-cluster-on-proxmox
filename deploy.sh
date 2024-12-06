@@ -81,6 +81,7 @@ do
 			  - name: cloudinit
 			    lock_passwd: false
 			    # mkpasswd --method=SHA-512 --rounds=4096
+			    # password: mypassword
 			    passwd: \$6\$rounds=4096\$hRSSL7OThTE.bfU0\$Jzv3h18280dqlMc8cmHfraR53Izc1XGbgJTobh5yV8FVhEYpMhcV4Q6NFzMIFjk3/irHvCRJk56fFwepM6eyF.
 			    sudo: ALL=(ALL) NOPASSWD:ALL
 			    uid: 1000
