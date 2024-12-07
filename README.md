@@ -32,18 +32,18 @@ deploy.sh に定義
 
  1. NWを環境に合わせて適宜変更する
 	```sh
-		## deploy.sh
-		#vmid #vmname    #cpu #mem  #disksize #vmsrvip    
-		"1120 k8s-master 2    4096  60GB      192.168.1.120"
-		"1121 k8s-node1  4    8192  60GB      192.168.1.121"
-		"1122 k8s-node2  4    8192  60GB      192.168.1.122"
-		GATEWAY_IPADDRESS=192.168.1.1
-		DNS1_IPADDRESS=192.168.1.1
-		DNS2_IPADDRESS=8.8.8.8
+	## deploy.sh
+	#vmid #vmname    #cpu #mem  #disksize #vmsrvip    
+	"1120 k8s-master 2    4096  60GB      192.168.1.120"
+	"1121 k8s-node1  4    8192  60GB      192.168.1.121"
+	"1122 k8s-node2  4    8192  60GB      192.168.1.122"
+	GATEWAY_IPADDRESS=192.168.1.1
+	DNS1_IPADDRESS=192.168.1.1
+	DNS2_IPADDRESS=8.8.8.8
 
-		##  ansible/roles/14-kube-config/templates/ipaddresspool.yml
-		addresses:
-		- 192.168.1.31-192.168.1.50
+	##  ansible/roles/14-kube-config/templates/ipaddresspool.yml
+	addresses:
+	- 192.168.1.31-192.168.1.50
 	```
  1. proxmoxのホストコンソール上で`deploy.sh`を実行すると、上記VMが作成され、クラスタの初期セットアップが行われる。
 	 `TARGET_BRANCH`はデプロイ対象のコードが反映されたブランチ名に変更する。
@@ -57,23 +57,19 @@ deploy.sh に定義
 
 ## デバッグ用
 
-	```sh
-	## check cloud-init 
-	sudo cloud-init query userdata
-	sudo cloud-init schema --system --annotate
-	```
+```sh
+## check cloud-init 
+sudo cloud-init query userdata
+sudo cloud-init schema --system --annotate
 
-	```sh
-	## check /var/log/cloud-init-output.log
-	sudo cat /var/log/cloud-init-output.log
-	```
+## check /var/log/cloud-init-output.log
+sudo cat /var/log/cloud-init-output.log
 
-	```sh
-	# ansible 手動実行
-	export ANSIBLE_CONFIG="$HOME"/kube-cluster-on-proxmox/ansible/ansible.cfg
-	ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --syntax-check
-	ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --list-tasks
-	ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --vvv
-	# ansible log
-	cat "$HOME"/kube-cluster-on-proxmox/ansible/ansible.log
-	```
+# ansible 手動実行
+export ANSIBLE_CONFIG="$HOME"/kube-cluster-on-proxmox/ansible/ansible.cfg
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --syntax-check
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --list-tasks
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --vvv
+# ansible log
+cat "$HOME"/kube-cluster-on-proxmox/ansible/ansible.log
+```
