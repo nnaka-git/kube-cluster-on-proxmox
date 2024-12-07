@@ -37,7 +37,7 @@ DNS2_IPADDRESS=8.8.8.8
 
 # create a new VM and attach Network Adaptor
 # vmbr0=Service Network Segment (192.168.1.0/24)
-qm create $TEMPLATE_VMID --bios seabios --cpu x86-64-v2-AES --cores 2 --memory 4096 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-single --ostype l26 --name kube-template
+qm create $TEMPLATE_VMID --bios seabios --cpu x86-64-v2-AES --cores 2 --memory 4096 --net0 virtio,bridge=vmbr0 --scsihw virtio-scsi-single --ostype l26 --name k8s-template
 
 # set scsi0 disk from downloaded disk
 qm set $TEMPLATE_VMID --scsi0 local-lvm:0,import-from=${VM_DISK_IMAGE},format=qcow2,cache=writeback,discard=on
