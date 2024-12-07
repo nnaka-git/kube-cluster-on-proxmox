@@ -26,5 +26,31 @@ deploy.sh に定義
  1. proxmoxのホストコンソール上で`deploy.sh`を実行すると、上記VMが作成され、クラスタの初期セットアップが行われます。`TARGET_BRANCH`はデプロイ対象のコードが反映されたブランチ名に変更してください。
 
 ```sh
+export TARGET_BRANCH=main
+# clear
+/bin/bash <(curl -s https://raw.githubusercontent.com/nnaka-git/kube-cluster-on-proxmox/${TARGET_BRANCH}/clear.sh) ${TARGET_BRANCH}
+# deploy
 /bin/bash <(curl -s https://raw.githubusercontent.com/nnaka-git/kube-cluster-on-proxmox/${TARGET_BRANCH}/deploy.sh) ${TARGET_BRANCH}
+```
+
+### デバッグ用
+```sh
+## check cloud-init 
+sudo cloud-init query userdata
+sudo cloud-init schema --system --annotate
+```
+```sh
+## check /var/log/cloud-init-output.log
+sudo cat /var/log/cloud-init-output.log
+```
+
+```sh
+# ansible 手動実行
+export ANSIBLE_CONFIG="$HOME"/kube-cluster-on-proxmox/ansible/ansible.cfg
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --syntax-check
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --list-tasks
+ansible-playbook "$HOME"/kube-cluster-on-proxmox/ansible/kube-setup.yml --vvv
+
+# ansible log
+cat "$HOME"/kube-cluster-on-proxmox/ansible/ansible.log
 ```
