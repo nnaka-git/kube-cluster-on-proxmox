@@ -17,13 +17,17 @@ VM_LIST=(
     # vmname:     proxmox上でVMを識別する名称およびホスト名
     # cpu:        VMに割り当てるコア数(vCPU)
     # mem:        VMに割り当てるメモリ(MB)
+    # disksize:   VMに割り当てるディスクサイズGB
     # vmsrvip:    VMのService Segment側NICに割り振る固定IP
     # ---
-    #vmid #vmname    #cpu #mem  #vmsrvip    
-    "1120 k8s-master 2    4096  192.168.1.120"
-    "1121 k8s-node1  4    8192  192.168.1.121"
-    "1122 k8s-node2  4    8192  192.168.1.122"
+    #vmid #vmname    #cpu #mem  #disksize #vmsrvip    
+    "1120 k8s-master 2    4096  60GB      192.168.1.120"
+    "1121 k8s-node1  4    8192  60GB      192.168.1.121"
+    "1122 k8s-node2  4    8192  60GB      192.168.1.122"
 )
+GATEWAY_IPADDRESS=192.168.1.1
+DNS1_IPADDRESS=192.168.1.1
+DNS2_IPADDRESS=8.8.8.8
 
 # endregion
 
@@ -55,7 +59,7 @@ qm template $TEMPLATE_VMID
 
 for array in "${VM_LIST[@]}"
 do
-	echo "${array}" | while read -r vmid vmname cpu mem vmsrvip 
+	echo "${array}" | while read -r vmid vmname cpu mem disksize vmsrvip 
 	do
 		# clone from template
 		qm clone "${TEMPLATE_VMID}" "${vmid}" --name "${vmname}" --full true
@@ -64,10 +68,10 @@ do
 		qm set "${vmid}" --cores "${cpu}" --memory "${mem}"
 
 		# resize disk (Resize after cloning, because it takes time to clone a large disk)
-		qm resize "${vmid}" scsi0 60G
+		qm resize "${vmid}" scsi0 "${disksize}"
 
 		# create snippet for cloud-init(user-config)
-		cat > "$SNIPPET_TARGET_PATH"/"$vmname"-user.yaml <<- EOF
+		cat > "${SNIPPET_TARGET_PATH}"/"$vmname"-user.yaml <<- EOF
 			#cloud-config
 			# SYSTEM
 			hostname: ${vmname}
@@ -114,7 +118,7 @@ do
 		EOF
 
 		# create snippet for cloud-init(network-config)
-		cat > "$SNIPPET_TARGET_PATH"/"$vmname"-network.yaml <<- EOF
+		cat > "${SNIPPET_TARGET_PATH}"/"$vmname"-network.yaml <<- EOF
 			version: 1
 			config:
 			  - type: physical
@@ -122,11 +126,11 @@ do
 			    subnets:
 			      - type: static
 			        address: ${vmsrvip}/24
-			        gateway: 192.168.1.1
+			        gateway: ${GATEWAY_IPADDRESS}
 			  - type: nameserver
 			    address:
-			      - 192.168.1.1
-			      - 8.8.8.8
+			      - ${DNS1_IPADDRESS}
+			      - ${DNS2_IPADDRESS}
 			    search:
 			      - local
 		EOF
