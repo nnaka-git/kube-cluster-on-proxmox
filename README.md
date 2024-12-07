@@ -43,7 +43,7 @@ deploy.sh に定義
 
 	##  ansible/roles/14-kube-config/templates/ipaddresspool.yml
 	addresses:
-	- 192.168.1.31-192.168.1.50
+	- 192.168.1.131-192.168.1.150
 	```
  1. proxmoxのホストコンソール上で`deploy.sh`を実行すると、上記VMが作成され、クラスタの初期セットアップが行われる。
 	 `TARGET_BRANCH`はデプロイ対象のコードが反映されたブランチ名に変更する。
