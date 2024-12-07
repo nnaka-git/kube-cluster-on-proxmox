@@ -91,10 +91,10 @@ do
 			    uid: 1000
 			disable_root: false
 			ssh_pwauth:   true
-			chpasswd:
-			  expire: false
-			  users:
-			  - {name: root, password: \$6\$rounds=4096\$Q8.soBzTd197aiV1\$kLND.9Ncudev2N01P89KT63kwxa3Ba4dPPsO4iRTdxu8a9.SNrKxvzEj1cvvz7DdtY3JyOUxHym8KEECarXq1.}
+			# chpasswd:
+			#   expire: false
+			#   users:
+			#   - {name: root, password: \$6\$rounds=4096\$Q8.soBzTd197aiV1\$kLND.9Ncudev2N01P89KT63kwxa3Ba4dPPsO4iRTdxu8a9.SNrKxvzEj1cvvz7DdtY3JyOUxHym8KEECarXq1.}
 			package_upgrade: true
 			# for LANG=ja_JP.UTF-8
 			packages:
