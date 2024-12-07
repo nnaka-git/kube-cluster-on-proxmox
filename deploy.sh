@@ -91,10 +91,6 @@ do
 			    uid: 1000
 			disable_root: false
 			ssh_pwauth:   true
-			# chpasswd:
-			#   expire: false
-			#   users:
-			#   - {name: root, password: \$6\$rounds=4096\$Q8.soBzTd197aiV1\$kLND.9Ncudev2N01P89KT63kwxa3Ba4dPPsO4iRTdxu8a9.SNrKxvzEj1cvvz7DdtY3JyOUxHym8KEECarXq1.}
 			package_upgrade: true
 			# for LANG=ja_JP.UTF-8
 			packages:
@@ -109,6 +105,7 @@ do
 			  - su - cloudinit -c "mkdir -p ~/.ssh && chmod 700 ~/.ssh"
 			  - su - cloudinit -c "curl -sS https://github.com/nnaka-git.keys >> ~/.ssh/authorized_keys"
 			  - su - cloudinit -c "chmod 600 ~/.ssh/authorized_keys"
+			  # pull bootstrap script and exec ansible
 			  - su - cloudinit -c "curl -s ${REPOSITORY_RAW_SOURCE_URL}/scripts/bootstrap.sh > ~/bootstrap.sh"
 			  - su - cloudinit -c "bash ~/bootstrap.sh ${vmname} ${TARGET_BRANCH}"
 			  - su - cloudinit -c "sudo localedef -f UTF-8 -i ja_JP ja_JP"

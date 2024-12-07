@@ -1,5 +1,5 @@
 #!/bin/bash
-# Exit except control-plane
+# Exit except master-plane
 if [ $1 != "k8s-master" ]; then
     exit 0
 fi
