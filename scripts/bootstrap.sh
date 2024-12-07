@@ -1,14 +1,17 @@
 #!/bin/bash
 # Exit except control-plane
-if [ $1 != "kube-cp1" ]; then
+if [ $1 != "k8s-master" ]; then
     exit 0
 fi
+
+# Set global variables
+TARGET_BRANCH=$2
 
 # Install Ansible
 sudo dnf install -y ansible-core
 
 # Clone your Ansible repository
-git clone https://github.com/nnaka-git/kube-cluster-on-proxmox.git "$HOME"/kube-cluster-on-proxmox
+git clone -b "${TARGET_BRANCH}" https://github.com/nnaka-git/kube-cluster-on-proxmox.git "$HOME"/kube-cluster-on-proxmox
 
 # Run your initial Ansible playbook
 # export ansible.cfg target
