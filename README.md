@@ -1,8 +1,7 @@
 # kubernetes cluster on proxmox
 
 1ノードの Proxmox 上に Kubernetes の 3 ノードクラスタの VM を作成する
-
-以下の手順を cloud-init、Ansible で実施
+cloud-init、Ansible で作成
 ## VM
 
 deploy.sh に定義
@@ -23,7 +22,7 @@ deploy.sh に定義
 
 ## 作成フロー
 
- 1. proxmoxのホストコンソール上で`deploy.sh`を実行すると、上記VMが作成され、クラスタの初期セットアップが行われます。`TARGET_BRANCH`はデプロイ対象のコードが反映されたブランチ名に変更してください。
+ 1. proxmoxのホストコンソール上で`deploy.sh`を実行すると、上記VMが作成され、クラスタの初期セットアップが行われる。`TARGET_BRANCH`はデプロイ対象のコードが反映されたブランチ名に変更する。
 
 ```sh
 export TARGET_BRANCH=main
